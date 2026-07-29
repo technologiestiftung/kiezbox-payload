@@ -1,16 +1,13 @@
 import React from 'react';
 
+import { MediaCarousel } from '@/blocks/ContentMediaBlock/MediaCarousel.client';
 import { CMSLink } from '@/components/Link';
 import { Media } from '@/components/Media';
 import RichText from '@/components/RichText';
-import {
-	Carousel,
-	CarouselContent,
-	CarouselItem,
-	CarouselNext,
-	CarouselPrevious,
-} from '@/components/ui/carousel';
-import type { ContentMediaBlock as ContentMediaBlockProps } from '@/payload-types';
+import type {
+	ContentMediaBlock as ContentMediaBlockProps,
+	Media as MediaType,
+} from '@/payload-types';
 
 type Props = ContentMediaBlockProps;
 
@@ -22,11 +19,11 @@ export const ContentMediaBlock: React.FC<Props> = ({
 	media,
 	richText,
 }) => {
-	const mediaItems = Array.isArray(media)
-		? media.filter((item): item is NonNullable<typeof item> => item != null)
-		: media
-			? [media]
-			: [];
+	const mediaItems = (
+		Array.isArray(media) ? media : media ? [media] : []
+	).filter(
+		(item): item is MediaType => typeof item === 'object' && item !== null,
+	);
 
 	return (
 		<section className="container py-2">
@@ -40,7 +37,7 @@ export const ContentMediaBlock: React.FC<Props> = ({
 				)}
 			</div>
 
-			<div className="grid lg:grid-cols-12 items-stretch gap-12 min-h-141 max-h-screen">
+			<div className="grid lg:grid-cols-12 items-stretch gap-12">
 				{/* Content */}
 
 				<div className="lg:col-span-6 flex flex-col justify-center">
@@ -60,38 +57,20 @@ export const ContentMediaBlock: React.FC<Props> = ({
 				</div>
 
 				{/* Image */}
-				<div className="lg:col-span-6 h-full">
-					{mediaItems.length === 1 && (
-						<Media
-							resource={mediaItems[0]}
-							priority
-							className="h-full"
-							imgClassName="h-full w-full object-cover"
-						/>
-					)}
+				<div className="lg:col-span-6 lg:flex">
+					<div className="h-72 md:h-88 lg:h-full lg:max-h-svh w-full bg-muted/20 p-2">
+						{mediaItems.length === 1 && (
+							<Media
+								resource={mediaItems[0]}
+								priority
+								className="h-full w-full flex items-center justify-center"
+								pictureClassName="block h-full w-full"
+								imgClassName="max-h-full max-w-full h-auto w-auto object-contain"
+							/>
+						)}
 
-					{mediaItems.length > 1 && (
-						<Carousel opts={{ loop: true }} className="w-full h-full">
-							<CarouselContent>
-								{mediaItems.map((item, index) => (
-									<CarouselItem
-										key={
-											typeof item === 'object' ? item.id : `${item}-${index}`
-										}
-									>
-										<Media
-											resource={item}
-											priority={index === 0}
-											className="h-full"
-											imgClassName="h-full w-full object-cover"
-										/>
-									</CarouselItem>
-								))}
-							</CarouselContent>
-							<CarouselPrevious className="left-3 top-1/2 -translate-y-1/2" />
-							<CarouselNext className="right-3 top-1/2 -translate-y-1/2" />
-						</Carousel>
-					)}
+						{mediaItems.length > 1 && <MediaCarousel items={mediaItems} />}
+					</div>
 				</div>
 			</div>
 		</section>
