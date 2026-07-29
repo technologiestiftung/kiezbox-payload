@@ -31,6 +31,7 @@ export const CardBlock: Block = {
   slug: 'cardBlock',
   interfaceName: 'CardBlock',
   fields: [
+    { name: 'eyebrow', type: 'text' },
     { name: 'title', type: 'text', required: true },
     { name: 'subtitle', type: 'text' },
     {

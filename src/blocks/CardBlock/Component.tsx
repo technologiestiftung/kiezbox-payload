@@ -7,15 +7,18 @@ const iconMap = { star: Star, heart: Heart, shield: Shield, check: Check } as co
 
 type Props = CardBlockProps
 
-export const CardBlock: FC<Props> = ({ title, subtitle, cards }) => {
+export const CardBlock: FC<Props> = ({ eyebrow, title, subtitle, cards }) => {
   return (
     <div className="CardBlock-root bg-card">
       <div className="container my-16">
         <div className="p-6">
-          
-          {subtitle && <p>{subtitle}</p>}
+          <div className="max-w-3xl space-y-4 mb-8">
+            {eyebrow && <p className="text-sm font-bold uppercase">{eyebrow}</p>}
 
-          <h2>{title}</h2>
+            <h2 className="text-3xl font-bold">{title}</h2>
+
+            {subtitle && <p className="text-xl text-muted-foreground">{subtitle}</p>}
+          </div>
 
           <div className="grid grid-cols-4 lg:grid-cols-12 gap-6">
             {cards?.map((card, i) => {

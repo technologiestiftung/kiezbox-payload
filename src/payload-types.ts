@@ -777,6 +777,7 @@ export interface Form {
  * via the `definition` "CardBlock".
  */
 export interface CardBlock {
+  eyebrow?: string | null;
   title: string;
   subtitle?: string | null;
   cards?:
@@ -1270,6 +1271,7 @@ export interface FormBlockSelect<T extends boolean = true> {
  * via the `definition` "CardBlock_select".
  */
 export interface CardBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
   title?: T;
   subtitle?: T;
   cards?:
