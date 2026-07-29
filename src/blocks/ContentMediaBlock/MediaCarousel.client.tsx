@@ -36,23 +36,21 @@ export const MediaCarousel: React.FC<Props> = ({ items }) => {
 	}
 
 	return (
-		<Carousel opts={{ loop: true }} className="w-full h-full">
+		<Carousel opts={{ loop: true }} className="h-full w-full">
 			<CarouselContent className="h-full">
 				{items.map((item, index) => (
-					<CarouselItem
-						className="h-full flex items-center justify-center"
-						key={item.id}
-					>
+					<CarouselItem key={item.id} className="h-full basis-full">
 						<Media
 							resource={item}
 							priority={index === 0}
-							className="h-full w-full flex items-center justify-center"
+							className="h-full w-full"
 							pictureClassName="block h-full w-full"
-							imgClassName="max-h-full max-w-full h-auto w-auto object-contain"
+							imgClassName="h-full w-full object-contain"
 						/>
 					</CarouselItem>
 				))}
 			</CarouselContent>
+
 			<CarouselPrevious className="left-3 top-1/2 -translate-y-1/2" />
 			<CarouselNext className="right-3 top-1/2 -translate-y-1/2" />
 		</Carousel>
