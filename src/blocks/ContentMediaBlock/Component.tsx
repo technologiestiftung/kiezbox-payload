@@ -40,7 +40,7 @@ export const ContentMediaBlock: React.FC<Props> = ({
 				)}
 			</div>
 
-			<div className="grid lg:grid-cols-12 items-stretch gap-12 min-h-141">
+			<div className="grid lg:grid-cols-12 items-stretch gap-12 min-h-141 max-h-screen">
 				{/* Content */}
 
 				<div className="lg:col-span-6 flex flex-col justify-center">
