@@ -13,9 +13,9 @@ export const ContentMediaBlock: Block = {
 	slug: 'contentMediaBlock',
 	interfaceName: 'ContentMediaBlock',
 	fields: [
-		{ name: 'eyebrow', type: 'text' },
-		{ name: 'title', type: 'text', required: true },
-		{ name: 'subtitle', type: 'text' },
+		{ name: 'eyebrow', type: 'text', localized: true },
+		{ name: 'title', type: 'text', required: true, localized: true },
+		{ name: 'subtitle', type: 'text', localized: true },
 		{
 			name: 'richText',
 			type: 'richText',
@@ -30,6 +30,7 @@ export const ContentMediaBlock: Block = {
 				},
 			}),
 			label: false,
+			localized: true,
 		},
 		linkGroup({
 			overrides: {
