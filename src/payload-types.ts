@@ -1868,6 +1868,10 @@ export interface Header {
               } | null);
           url?: string | null;
           label: string;
+          /**
+           * Choose how the link should be rendered.
+           */
+          appearance?: ('default' | 'link') | null;
         };
         id?: string | null;
       }[]
@@ -1920,6 +1924,7 @@ export interface HeaderSelect<T extends boolean = true> {
               reference?: T;
               url?: T;
               label?: T;
+              appearance?: T;
             };
         id?: T;
       };
