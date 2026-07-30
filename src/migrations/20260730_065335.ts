@@ -1,7 +1,7 @@
-import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
+import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres';
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
-  await db.execute(sql`
+	await db.execute(sql`
    CREATE TYPE "public"."_locales" AS ENUM('en', 'de');
   CREATE TYPE "public"."enum__pages_v_published_locale" AS ENUM('en', 'de');
   CREATE TYPE "public"."enum__posts_v_published_locale" AS ENUM('en', 'de');
@@ -273,7 +273,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "_pages_v" ADD COLUMN "published_locale" "enum__pages_v_published_locale";
   ALTER TABLE "_posts_v" ADD COLUMN "snapshot" boolean;
   ALTER TABLE "_posts_v" ADD COLUMN "published_locale" "enum__posts_v_published_locale";
-  ALTER TABLE "categories_breadcrumbs" ADD COLUMN "_locale" "_locales" NOT NULL;
+  ALTER TABLE "categories_breadcrumbs" ADD COLUMN "_locale" "_locales";
+  UPDATE "categories_breadcrumbs" SET "_locale" = 'en' WHERE "_locale" IS NULL;
+  ALTER TABLE "categories_breadcrumbs" ALTER COLUMN "_locale" SET NOT NULL;
   ALTER TABLE "pages_hero_links_locales" ADD CONSTRAINT "pages_hero_links_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_hero_links"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "pages_blocks_cta_links_locales" ADD CONSTRAINT "pages_blocks_cta_links_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_cta_links"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "pages_blocks_content_columns_locales" ADD CONSTRAINT "pages_blocks_content_columns_locales_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_content_columns"("id") ON DELETE cascade ON UPDATE no action;
@@ -406,11 +408,15 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "forms" DROP COLUMN "confirmation_message";
   ALTER TABLE "search" DROP COLUMN "title";
   ALTER TABLE "header_nav_items" DROP COLUMN "link_label";
-  ALTER TABLE "footer_nav_items" DROP COLUMN "link_label";`)
+  ALTER TABLE "footer_nav_items" DROP COLUMN "link_label";`);
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
-  await db.execute(sql`
+export async function down({
+	db,
+	payload,
+	req,
+}: MigrateDownArgs): Promise<void> {
+	await db.execute(sql`
    ALTER TABLE "pages_hero_links_locales" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "pages_blocks_cta_links_locales" DISABLE ROW LEVEL SECURITY;
   ALTER TABLE "pages_blocks_content_columns_locales" DISABLE ROW LEVEL SECURITY;
@@ -551,5 +557,5 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   ALTER TABLE "categories_breadcrumbs" DROP COLUMN "_locale";
   DROP TYPE "public"."_locales";
   DROP TYPE "public"."enum__pages_v_published_locale";
-  DROP TYPE "public"."enum__posts_v_published_locale";`)
+  DROP TYPE "public"."enum__posts_v_published_locale";`);
 }

@@ -1,7 +1,7 @@
-import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
+import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres';
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
-  await db.execute(sql`
+	await db.execute(sql`
    CREATE TABLE "categories_breadcrumbs" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -121,7 +121,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "forms_blocks_email" ADD COLUMN "label" varchar;
   ALTER TABLE "forms_blocks_message" ADD COLUMN "message" jsonb;
   ALTER TABLE "forms_blocks_number" ADD COLUMN "label" varchar;
-  ALTER TABLE "forms_blocks_select_options" ADD COLUMN "label" varchar NOT NULL;
+  ALTER TABLE "forms_blocks_select_options" ADD COLUMN "label" varchar;
   ALTER TABLE "forms_blocks_select" ADD COLUMN "label" varchar;
   ALTER TABLE "forms_blocks_select" ADD COLUMN "default_value" varchar;
   ALTER TABLE "forms_blocks_state" ADD COLUMN "label" varchar;
@@ -134,8 +134,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "forms" ADD COLUMN "submit_button_label" varchar;
   ALTER TABLE "forms" ADD COLUMN "confirmation_message" jsonb;
   ALTER TABLE "search" ADD COLUMN "title" varchar;
-  ALTER TABLE "header_nav_items" ADD COLUMN "link_label" varchar NOT NULL;
-  ALTER TABLE "footer_nav_items" ADD COLUMN "link_label" varchar NOT NULL;
+  ALTER TABLE "header_nav_items" ADD COLUMN "link_label" varchar;
+  ALTER TABLE "footer_nav_items" ADD COLUMN "link_label" varchar;
+  UPDATE "forms_blocks_select_options" SET "label" = '' WHERE "label" IS NULL;
+  UPDATE "header_nav_items" SET "link_label" = '' WHERE "link_label" IS NULL;
+  UPDATE "footer_nav_items" SET "link_label" = '' WHERE "link_label" IS NULL;
+  ALTER TABLE "forms_blocks_select_options" ALTER COLUMN "label" SET NOT NULL;
+  ALTER TABLE "header_nav_items" ALTER COLUMN "link_label" SET NOT NULL;
+  ALTER TABLE "footer_nav_items" ALTER COLUMN "link_label" SET NOT NULL;
   ALTER TABLE "categories_breadcrumbs" ADD CONSTRAINT "categories_breadcrumbs_doc_id_categories_id_fk" FOREIGN KEY ("doc_id") REFERENCES "public"."categories"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "categories_breadcrumbs" ADD CONSTRAINT "categories_breadcrumbs_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."categories"("id") ON DELETE cascade ON UPDATE no action;
   CREATE INDEX "categories_breadcrumbs_order_idx" ON "categories_breadcrumbs" USING btree ("_order");
@@ -157,11 +163,15 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "_posts_v" DROP COLUMN "published_locale";
   DROP TYPE "public"."_locales";
   DROP TYPE "public"."enum__pages_v_published_locale";
-  DROP TYPE "public"."enum__posts_v_published_locale";`)
+  DROP TYPE "public"."enum__posts_v_published_locale";`);
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
-  await db.execute(sql`
+export async function down({
+	db,
+	payload,
+	req,
+}: MigrateDownArgs): Promise<void> {
+	await db.execute(sql`
    CREATE TYPE "public"."_locales" AS ENUM('en', 'de');
   CREATE TYPE "public"."enum__pages_v_published_locale" AS ENUM('en', 'de');
   CREATE TYPE "public"."enum__posts_v_published_locale" AS ENUM('en', 'de');
@@ -570,5 +580,5 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   ALTER TABLE "forms" DROP COLUMN "confirmation_message";
   ALTER TABLE "search" DROP COLUMN "title";
   ALTER TABLE "header_nav_items" DROP COLUMN "link_label";
-  ALTER TABLE "footer_nav_items" DROP COLUMN "link_label";`)
+  ALTER TABLE "footer_nav_items" DROP COLUMN "link_label";`);
 }
