@@ -87,14 +87,14 @@
 }
 
 :root {
-	--background: #ededf2;
+	--background: #ffffff;
 	--foreground: #28231c;
 	--card: #d1ceec;
 	--card-foreground: #28231c;
 	--popover: #ededf2;
 	--popover-foreground: #28231c;
 	--primary: #7d77b8;
-	--primary-foreground: #ededf2;
+	--primary-foreground: #ffffff;
 	--secondary: #05a87d;
 	--secondary-foreground: #ededf2;
 	--muted: #d1ceec;
@@ -127,7 +127,7 @@
 
 [data-theme='dark'] {
 	--background: #1a1730;
-	--foreground: #ededf2;
+	--foreground: #ffffff;
 	--card: #28231c;
 	--card-foreground: #ededf2;
 	--popover: #1a1730;
