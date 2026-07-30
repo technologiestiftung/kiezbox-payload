@@ -17,7 +17,7 @@ export async function Footer() {
 			{/* Main section: logo + tagline | nav columns */}
 			<div className="container py-10 flex flex-col md:flex-row gap-10 md:justify-between">
 				{/* Left: logo + tagline */}
-				<div className="flex flex-col gap-4 max-w-xs">
+				<div className="flex flex-col gap-4 max-w-md">
 					<Link className="flex items-center" href="/">
 						<Logo />
 					</Link>
@@ -98,7 +98,13 @@ export async function Footer() {
 			<div className="border-t border-border">
 				<div className="container py-4 flex flex-col sm:flex-row justify-between gap-2">
 					<span className="text-xs text-muted-foreground">
-						© 2026 Kiezbox Projekt. Lizenziert unter GPL-3.0.
+						© 2026 Kiezbox Projekt. Lizenziert unter MIT License. Mehr Infos auf{' '}
+						<Link
+							className="underline hover:text-foreground transition-colors"
+							href="https://github.com/technologiestiftung/kiezbox"
+						>
+							Github
+						</Link>
 					</span>
 					<span className="text-xs text-muted-foreground">
 						Hergestellt mit Zivilcourage und ♥ in Berlin.
