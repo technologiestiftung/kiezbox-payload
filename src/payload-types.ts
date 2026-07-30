@@ -843,8 +843,7 @@ export interface CardBlock {
   subtitle?: string | null;
   cards?:
     | {
-        icon?: ('star' | 'heart' | 'shield' | 'check') | null;
-        title: string;
+        icon?: ('shield' | 'sun' | 'network' | 'circuitBoard' | 'microchip') | null;
         content: {
           root: {
             type: string;
@@ -1368,7 +1367,6 @@ export interface CardBlockSelect<T extends boolean = true> {
     | T
     | {
         icon?: T;
-        title?: T;
         content?: T;
         id?: T;
       };

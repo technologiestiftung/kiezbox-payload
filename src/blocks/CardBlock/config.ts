@@ -3,6 +3,7 @@ import type { Block, Field } from 'payload';
 import {
 	FixedToolbarFeature,
 	InlineToolbarFeature,
+	HeadingFeature,
 	lexicalEditor,
 } from '@payloadcms/richtext-lexical';
 
@@ -10,15 +11,19 @@ const cardFields: Field[] = [
 	{
 		name: 'icon',
 		type: 'select',
-		options: ['star', 'heart', 'shield', 'check'],
+		options: ['shield', 'sun', 'network', 'circuitBoard', 'microchip'],
 	},
-	{ name: 'title', type: 'text', required: true },
 	{
 		name: 'content',
 		type: 'richText',
 		editor: lexicalEditor({
 			features: ({ rootFeatures }) => {
-				return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()];
+				return [
+					...rootFeatures,
+					HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+					FixedToolbarFeature(),
+					InlineToolbarFeature(),
+				];
 			},
 		}),
 		label: false,

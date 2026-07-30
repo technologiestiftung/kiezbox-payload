@@ -58,7 +58,7 @@ export const ContentMediaBlock: React.FC<Props> = ({
 
 				{/* Image */}
 				<div className="lg:col-span-6 lg:flex">
-					<div className="relative h-72 w-full bg-muted/20 p-2 sm:h-96 lg:h-125">
+					<div className="relative h-72 w-full p-2 sm:h-96 lg:h-125">
 						{mediaItems.length === 1 && (
 							<Media
 								resource={mediaItems[0]}
