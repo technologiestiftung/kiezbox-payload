@@ -15,7 +15,7 @@ export const EventBlock: FC<Props> = ({ eyebrow, title, subtitle, events }) => {
 
   return (
     <div className="EventBlock-root bg-card">
-      <div className="container my-16">
+      <div className="container py-16">
         <div className="p-6">
           <div className="max-w-3xl space-y-4 mb-8">
             {eyebrow && <p className="text-sm font-bold uppercase">{eyebrow}</p>}

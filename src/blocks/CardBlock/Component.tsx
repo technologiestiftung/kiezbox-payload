@@ -23,9 +23,9 @@ type Props = CardBlockProps;
 
 export const CardBlock: FC<Props> = ({ eyebrow, title, subtitle, cards }) => {
 	return (
-		<div className="CardBlock-root bg-muted/20">
+		<div className="CardBlock-root bg-card">
 			<div className="container py-16">
-				<div>
+				<div className="p-6">
 					<div className="max-w-3xl space-y-4 mb-8">
 						{eyebrow && (
 							<p className="text-sm font-bold uppercase">{eyebrow}</p>
