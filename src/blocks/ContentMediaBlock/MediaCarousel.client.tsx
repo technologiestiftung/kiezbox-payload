@@ -42,17 +42,18 @@ export const MediaCarousel: React.FC<Props> = ({ items }) => {
 					<CarouselItem key={item.id} className="h-full basis-full">
 						<Media
 							resource={item}
+							fill
 							priority={index === 0}
 							className="h-full w-full"
-							pictureClassName="block h-full w-full"
-							imgClassName="h-full w-full object-contain"
+							pictureClassName="relative block h-full w-full"
+							imgClassName="object-contain"
 						/>
 					</CarouselItem>
 				))}
 			</CarouselContent>
 
-			<CarouselPrevious className="left-3 top-1/2 -translate-y-1/2" />
-			<CarouselNext className="right-3 top-1/2 -translate-y-1/2" />
+			<CarouselPrevious className="left-2 top-1/2 z-10 h-9 w-9 -translate-y-1/2 border-border/70 bg-background/90 shadow-sm backdrop-blur supports-backdrop-filter:bg-background/75 hover:bg-background" />
+			<CarouselNext className="right-2 top-1/2 z-10 h-9 w-9 -translate-y-1/2 border-border/70 bg-background/90 shadow-sm backdrop-blur supports-backdrop-filter:bg-background/75 hover:bg-background" />
 		</Carousel>
 	);
 };
