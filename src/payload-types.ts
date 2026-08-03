@@ -210,6 +210,7 @@ export interface Page {
     | FormBlock
     | CardBlock
     | EventBlock
+    | TwoColumnBlock
   )[];
   meta?: {
     title?: string | null;
@@ -919,6 +920,81 @@ export interface EventBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TwoColumnBlock".
+ */
+export interface TwoColumnBlock {
+  verticalAlignment?: ('start' | 'center' | 'end') | null;
+  reverseColumns?: boolean | null;
+  leftColumn?: (MediaBlock | OpenSourceBlock)[] | null;
+  rightColumn?: (MediaBlock | OpenSourceBlock)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'twoColumn';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OpenSourceBlock".
+ */
+export interface OpenSourceBlock {
+  headline: string;
+  text?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  showAccentLine?: boolean | null;
+  badgePrimary?: {
+    label?: string | null;
+    enableLink?: boolean | null;
+    link?: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: number | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: number | Post;
+          } | null);
+      url?: string | null;
+    };
+  };
+  badgeSecondary?: {
+    label?: string | null;
+    enableLink?: boolean | null;
+    link?: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: number | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: number | Post;
+          } | null);
+      url?: string | null;
+    };
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'openSource';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1228,6 +1304,7 @@ export interface PagesSelect<T extends boolean = true> {
         formBlock?: T | FormBlockSelect<T>;
         cardBlock?: T | CardBlockSelect<T>;
         eventBlock?: T | EventBlockSelect<T>;
+        twoColumn?: T | TwoColumnBlockSelect<T>;
       };
   meta?:
     | T
@@ -1399,6 +1476,67 @@ export interface EventBlockSelect<T extends boolean = true> {
               label?: T;
             };
         id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TwoColumnBlock_select".
+ */
+export interface TwoColumnBlockSelect<T extends boolean = true> {
+  verticalAlignment?: T;
+  reverseColumns?: T;
+  leftColumn?:
+    | T
+    | {
+        mediaBlock?: T | MediaBlockSelect<T>;
+        openSource?: T | OpenSourceBlockSelect<T>;
+      };
+  rightColumn?:
+    | T
+    | {
+        mediaBlock?: T | MediaBlockSelect<T>;
+        openSource?: T | OpenSourceBlockSelect<T>;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OpenSourceBlock_select".
+ */
+export interface OpenSourceBlockSelect<T extends boolean = true> {
+  headline?: T;
+  text?: T;
+  showAccentLine?: T;
+  badgePrimary?:
+    | T
+    | {
+        label?: T;
+        enableLink?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+            };
+      };
+  badgeSecondary?:
+    | T
+    | {
+        label?: T;
+        enableLink?: T;
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+            };
       };
   id?: T;
   blockName?: T;
