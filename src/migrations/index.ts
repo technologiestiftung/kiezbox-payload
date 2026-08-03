@@ -7,6 +7,8 @@ import * as migration_20260730_072538 from './20260730_072538';
 import * as migration_20260730_073015 from './20260730_073015';
 import * as migration_20260730_085601 from './20260730_085601';
 import * as migration_20260730_093308 from './20260730_093308';
+import * as migration_20260803_154939_two_column_open_source from './20260803_154939_two_column_open_source';
+import * as migration_20260803_162217_open_source_reverse_columns from './20260803_162217_open_source_reverse_columns';
 
 export const migrations = [
   {
@@ -52,6 +54,16 @@ export const migrations = [
   {
     up: migration_20260730_093308.up,
     down: migration_20260730_093308.down,
-    name: '20260730_093308'
+    name: '20260730_093308',
+  },
+  {
+    up: migration_20260803_154939_two_column_open_source.up,
+    down: migration_20260803_154939_two_column_open_source.down,
+    name: '20260803_154939_two_column_open_source',
+  },
+  {
+    up: migration_20260803_162217_open_source_reverse_columns.up,
+    down: migration_20260803_162217_open_source_reverse_columns.down,
+    name: '20260803_162217_open_source_reverse_columns'
   },
 ];
