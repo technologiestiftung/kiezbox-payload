@@ -50,8 +50,8 @@ export async function Footer() {
 				</div>
 			</div>
 
-			<div className="border-t border-border">
-				<div className="container py-8">
+			<div className="border-border">
+				<div className="container pb-8">
 					<div className="flex items-center gap-4 mb-6">
 						<div className="flex items-center gap-4">
 							<span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">

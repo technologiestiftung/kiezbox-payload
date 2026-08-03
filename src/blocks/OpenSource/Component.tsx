@@ -39,7 +39,9 @@ export const OpenSourceBlock: React.FC<OpenSourceBlockProps> = ({
 
 	return (
 		<div className="space-y-6">
-			{headline && <h2 className="text-4xl font-bold">{headline}</h2>}
+			{headline && (
+				<h2 className="text-3xl font-bold">{headline}</h2>
+			)}
 
 			{text && (
 				<RichText

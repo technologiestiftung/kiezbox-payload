@@ -37,12 +37,33 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({
 
 				{/* Image */}
 				<div className="lg:col-span-4 h-full max-h-141 overflow-hidden">
-					<Media
-						resource={media}
-						priority
-						className="h-full max-h-full"
-						imgClassName="h-full max-h-full w-full object-cover"
-					/>
+					{media && typeof media === 'object' && (
+						<>
+							{/* below lg → square (focal-point) crop */}
+							<Media
+								resource={
+									media.sizes?.square?.url
+										? {
+												...media,
+												url: media.sizes.square.url,
+												width: media.sizes.square.width,
+												height: media.sizes.square.height,
+											}
+										: media
+								}
+								priority
+								className="h-full max-h-full lg:hidden"
+								imgClassName="h-full max-h-full w-full object-cover"
+							/>
+							{/* lg and up → full image */}
+							<Media
+								resource={media}
+								priority
+								className="h-full max-h-full hidden lg:block"
+								imgClassName="h-full max-h-full w-full object-cover"
+							/>
+						</>
+					)}
 				</div>
 			</div>
 		</section>
