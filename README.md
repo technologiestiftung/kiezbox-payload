@@ -10,22 +10,6 @@
 
 A landing page for Kiezbox built with Payload CMS and Next.js, backed by Postgres. It provides a fully editable, block-based website with a Payload admin for managing pages, posts, media, and navigation.
 
-## TODO's left (after you generated the repo)
-
-- [ ] Adjust the file [.github/CODEOWNERS](./.github/CODEOWNERS)
-- [ ] Adjust the files under [.github/ISSUE_TEMPLATE](./.github/ISSUE_TEMPLATE)
-- [ ] If you use staging and main branches use this template for [.github/renovate.json](./.github/renovate.json)
-
-```json
-{
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>technologiestiftung/renovate-config"],
-  "baseBranches": ["staging"]
-}
-```
-
-- [ ] Get fancy shields at https://shields.io
-
 ## Prerequisites
 
 - Node.js 20.9+ (LTS)
