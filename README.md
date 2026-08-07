@@ -12,7 +12,7 @@ A landing page for Kiezbox built with Payload CMS and Next.js, backed by Postgre
 
 ## Prerequisites
 
-- Node.js 20.9+ (LTS)
+- Node.js 22 (LTS)
 - npm
 - Docker (for the local Postgres database)
 

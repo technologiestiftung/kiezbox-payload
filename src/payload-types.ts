@@ -210,7 +210,7 @@ export interface Page {
     | FormBlock
     | CardBlock
     | EventBlock
-    | TwoColumnBlock
+    | OpenSourceSectionBlock
   )[];
   meta?: {
     title?: string | null;
@@ -920,22 +920,9 @@ export interface EventBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TwoColumnBlock".
+ * via the `definition` "OpenSourceSectionBlock".
  */
-export interface TwoColumnBlock {
-  verticalAlignment?: ('start' | 'center' | 'end') | null;
-  reverseColumns?: boolean | null;
-  leftColumn?: (MediaBlock | OpenSourceBlock)[] | null;
-  rightColumn?: (MediaBlock | OpenSourceBlock)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'twoColumn';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "OpenSourceBlock".
- */
-export interface OpenSourceBlock {
+export interface OpenSourceSectionBlock {
   headline: string;
   text?: {
     root: {
@@ -989,6 +976,12 @@ export interface OpenSourceBlock {
       url?: string | null;
     };
   };
+  /**
+   * Optional. When set, the block renders as a 50/50 grid with the content and this media side by side.
+   */
+  media?: (number | null) | Media;
+  reverseColumns?: boolean | null;
+  verticalAlignment?: ('start' | 'center' | 'end') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'openSource';
@@ -1304,7 +1297,7 @@ export interface PagesSelect<T extends boolean = true> {
         formBlock?: T | FormBlockSelect<T>;
         cardBlock?: T | CardBlockSelect<T>;
         eventBlock?: T | EventBlockSelect<T>;
-        twoColumn?: T | TwoColumnBlockSelect<T>;
+        openSource?: T | OpenSourceSectionBlockSelect<T>;
       };
   meta?:
     | T
@@ -1482,31 +1475,9 @@ export interface EventBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TwoColumnBlock_select".
+ * via the `definition` "OpenSourceSectionBlock_select".
  */
-export interface TwoColumnBlockSelect<T extends boolean = true> {
-  verticalAlignment?: T;
-  reverseColumns?: T;
-  leftColumn?:
-    | T
-    | {
-        mediaBlock?: T | MediaBlockSelect<T>;
-        openSource?: T | OpenSourceBlockSelect<T>;
-      };
-  rightColumn?:
-    | T
-    | {
-        mediaBlock?: T | MediaBlockSelect<T>;
-        openSource?: T | OpenSourceBlockSelect<T>;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "OpenSourceBlock_select".
- */
-export interface OpenSourceBlockSelect<T extends boolean = true> {
+export interface OpenSourceSectionBlockSelect<T extends boolean = true> {
   headline?: T;
   text?: T;
   showAccentLine?: T;
@@ -1538,6 +1509,9 @@ export interface OpenSourceBlockSelect<T extends boolean = true> {
               url?: T;
             };
       };
+  media?: T;
+  reverseColumns?: T;
+  verticalAlignment?: T;
   id?: T;
   blockName?: T;
 }

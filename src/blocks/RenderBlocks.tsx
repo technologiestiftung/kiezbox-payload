@@ -10,7 +10,7 @@ import { ContentMediaBlock } from '@/blocks/ContentMediaBlock/Component';
 import { EventBlock } from '@/blocks/EventBlock/Component';
 import { FormBlock } from '@/blocks/Form/Component';
 import { MediaBlock } from '@/blocks/MediaBlock/Component';
-import { TwoColumnBlock } from '@/blocks/TwoColumn/Component';
+import { OpenSourceSectionBlock } from '@/blocks/OpenSourceSection/Component';
 
 const blockComponents = {
 	archive: ArchiveBlock,
@@ -21,7 +21,7 @@ const blockComponents = {
 	mediaBlock: MediaBlock,
 	cardBlock: CardBlock,
 	eventBlock: EventBlock,
-	twoColumn: TwoColumnBlock,
+	openSource: OpenSourceSectionBlock,
 };
 
 export const RenderBlocks: React.FC<{

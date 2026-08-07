@@ -12,7 +12,7 @@ import { ContentMediaBlock } from '../../blocks/ContentMediaBlock/config';
 import { EventBlock } from '../../blocks/EventBlock/config';
 import { FormBlock } from '../../blocks/Form/config';
 import { MediaBlock } from '../../blocks/MediaBlock/config';
-import { TwoColumn } from '../../blocks/TwoColumn/config';
+import { OpenSourceSection } from '../../blocks/OpenSourceSection/config';
 import { populatePublishedAt } from '../../hooks/populatePublishedAt';
 import { generatePreviewPath } from '../../utilities/generatePreviewPath';
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage';
@@ -85,7 +85,7 @@ export const Pages: CollectionConfig<'pages'> = {
 								FormBlock,
 								CardBlock,
 								EventBlock,
-								TwoColumn,
+								OpenSourceSection,
 							],
 							required: true,
 							admin: {
