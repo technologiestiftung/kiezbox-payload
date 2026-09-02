@@ -4,6 +4,7 @@ import { hero } from '@/heros/config';
 import { slugField } from 'payload';
 import { authenticated } from '../../access/authenticated';
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished';
+import { editorAccess } from '../../access/editorAccess';
 import { Archive } from '../../blocks/ArchiveBlock/config';
 import { CallToAction } from '../../blocks/CallToAction/config';
 import { CardBlock } from '../../blocks/CardBlock/config';
@@ -27,8 +28,8 @@ import {
 export const Pages: CollectionConfig<'pages'> = {
 	slug: 'pages',
 	access: {
-		create: authenticated,
-		delete: authenticated,
+		create: editorAccess,
+		delete: editorAccess,
 		read: authenticatedOrPublished,
 		update: authenticated,
 	},

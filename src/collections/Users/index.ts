@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload';
 
-import adminAccess from './access/adminAccess';
-import editorAccess from './access/editorAccess';
+import { adminAccess } from '@/access/adminAccess';
+import { authenticated } from '@/access/authenticated';
 import userAccess from './access/userAccess';
 import { adminFieldAccess } from './fieldAccess/adminFieldAccess';
 import { protectedRoles } from './hooks/protectRoles';
@@ -9,7 +9,7 @@ import { protectedRoles } from './hooks/protectRoles';
 export const Users: CollectionConfig = {
 	slug: 'users',
 	access: {
-		admin: editorAccess,
+		admin: authenticated,
 		create: adminAccess,
 		delete: adminAccess,
 		read: userAccess,
