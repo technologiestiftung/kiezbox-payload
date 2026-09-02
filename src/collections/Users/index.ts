@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig } from 'payload';
 
 import adminAccess from './access/adminAccess';
 import editorAccess from './access/editorAccess';

@@ -1,15 +1,19 @@
-import type { User } from '@/payload-types'
-import type { FieldHook } from 'payload'
+import type { User } from '@/payload-types';
+import type { FieldHook } from 'payload';
 
-export const protectedRoles: FieldHook<{ id: string } & User> = ({ req, value, originalDoc }) => {
-  const isAdmin = req.user?.roles?.includes('admin')
+export const protectedRoles: FieldHook<{ id: string } & User> = ({
+	req,
+	value,
+	originalDoc,
+}) => {
+	const isAdmin = req.user?.roles?.includes('admin');
 
-  if (!isAdmin) {
-    return originalDoc?.roles ?? ['user']
-  }
+	if (!isAdmin) {
+		return originalDoc?.roles ?? ['user'];
+	}
 
-  const userRoles = new Set(value || [])
-  userRoles.add('user')
+	const userRoles = new Set(value || []);
+	userRoles.add('user');
 
-  return [...userRoles.values()]
-}
+	return [...userRoles.values()];
+};
