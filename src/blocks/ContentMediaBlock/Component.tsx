@@ -14,6 +14,21 @@ import { cn } from '@/utilities/ui';
 
 type Props = ContentMediaBlockProps;
 
+const CONTENT_COL_SPAN: Record<
+	NonNullable<Props['contentWidth']>,
+	string
+> = {
+	balanced: 'lg:col-span-6',
+	contentLarge: 'lg:col-span-8',
+	mediaLarge: 'lg:col-span-4',
+};
+
+const MEDIA_COL_SPAN: Record<NonNullable<Props['contentWidth']>, string> = {
+	balanced: 'lg:col-span-6',
+	contentLarge: 'lg:col-span-4',
+	mediaLarge: 'lg:col-span-8',
+};
+
 export const ContentMediaBlock: React.FC<Props> = ({
 	eyebrow,
 	title,
@@ -21,12 +36,14 @@ export const ContentMediaBlock: React.FC<Props> = ({
 	links,
 	media,
 	mediaPosition = 'right',
+	contentWidth: contentWidthProp,
 	background = 'default',
 	richText,
 	features,
 	showDivider,
 	badges,
 }) => {
+	const contentWidth = contentWidthProp ?? 'balanced';
 	const mediaItems = (
 		Array.isArray(media) ? media : media ? [media] : []
 	).filter(
@@ -38,7 +55,7 @@ export const ContentMediaBlock: React.FC<Props> = ({
 
 	return (
 		<section
-			className={cn(inverse ? 'bg-primary text-primary-foreground' : undefined)}
+			className={cn(inverse ? 'bg-accent text-primary-foreground' : undefined)}
 		>
 			<div className={cn('container', inverse ? 'py-12' : undefined)}>
 				<div className="max-w-3xl space-y-4 mb-8">
@@ -73,7 +90,8 @@ export const ContentMediaBlock: React.FC<Props> = ({
 					{/* Content */}
 					<div
 						className={cn(
-							'lg:col-span-6 flex flex-col pb-4',
+							CONTENT_COL_SPAN[contentWidth],
+							'flex flex-col pb-4',
 							mediaPosition === 'left' ? 'lg:order-2' : undefined,
 						)}
 					>
@@ -122,7 +140,8 @@ export const ContentMediaBlock: React.FC<Props> = ({
 					{/* Image */}
 					<div
 						className={cn(
-							'lg:col-span-6 lg:flex flex-col',
+							MEDIA_COL_SPAN[contentWidth],
+							'lg:flex flex-col',
 							mediaPosition === 'left' ? 'lg:order-1' : undefined,
 						)}
 					>

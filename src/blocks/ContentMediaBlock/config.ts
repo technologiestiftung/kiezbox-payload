@@ -59,6 +59,16 @@ export const ContentMediaBlock: Block = {
 			],
 		},
 		{
+			name: 'contentWidth',
+			type: 'select',
+			defaultValue: 'balanced',
+			options: [
+				{ label: 'Half', value: 'balanced' },
+				{ label: 'Content Larger (2/3)', value: 'contentLarge' },
+				{ label: 'Media Larger (2/3)', value: 'mediaLarge' },
+			],
+		},
+		{
 			name: 'background',
 			type: 'select',
 			defaultValue: 'default',
@@ -73,7 +83,7 @@ export const ContentMediaBlock: Block = {
 			admin: {
 				initCollapsed: true,
 				description:
-					'Optional numbered feature list (e.g. KRITIS section). Renders instead of richText when set.',
+					'Optional numbered feature list. Renders instead of richText when set.',
 			},
 			fields: [
 				{

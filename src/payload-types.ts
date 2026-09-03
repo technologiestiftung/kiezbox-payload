@@ -596,9 +596,10 @@ export interface ContentMediaBlock {
     | null;
   media: (number | Media)[];
   mediaPosition?: ('right' | 'left') | null;
+  contentWidth?: ('balanced' | 'contentLarge' | 'mediaLarge') | null;
   background?: ('default' | 'inverse') | null;
   /**
-   * Optional numbered feature list (e.g. KRITIS section). Renders instead of richText when set.
+   * Optional numbered feature list. Renders instead of richText when set.
    */
   features?:
     | {
@@ -1358,6 +1359,7 @@ export interface ContentMediaBlockSelect<T extends boolean = true> {
       };
   media?: T;
   mediaPosition?: T;
+  contentWidth?: T;
   background?: T;
   features?:
     | T
