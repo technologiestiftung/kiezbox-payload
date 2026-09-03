@@ -38,12 +38,9 @@ export const ContentMediaBlock: React.FC<Props> = ({
 
 	return (
 		<section
-			className={cn(
-				'py-2',
-				inverse ? 'bg-primary text-primary-foreground' : undefined,
-			)}
+			className={cn(inverse ? 'bg-primary text-primary-foreground' : undefined)}
 		>
-			<div className="container py-8">
+			<div className={cn('container', inverse ? 'py-12' : undefined)}>
 				<div className="max-w-3xl space-y-4 mb-8">
 					{eyebrow && (
 						<p
@@ -72,7 +69,7 @@ export const ContentMediaBlock: React.FC<Props> = ({
 					)}
 				</div>
 
-				<div className="grid lg:grid-cols-12 items-stretch gap-12">
+				<div className="grid lg:grid-cols-12 items-stretch gap-2 md:gap-6 lg:gap-12">
 					{/* Content */}
 					<div
 						className={cn(
@@ -94,12 +91,7 @@ export const ContentMediaBlock: React.FC<Props> = ({
 								))}
 							</ol>
 						) : (
-							richText && (
-								<RichText
-									data={richText}
-									enableGutter={false}
-								/>
-							)
+							richText && <RichText data={richText} enableGutter={false} />
 						)}
 
 						{(hasBadges || (Array.isArray(links) && links.length > 0)) && (
@@ -134,14 +126,14 @@ export const ContentMediaBlock: React.FC<Props> = ({
 							mediaPosition === 'left' ? 'lg:order-1' : undefined,
 						)}
 					>
-						<div className="relative h-72 w-full p-2 sm:h-96 lg:h-125">
+						<div className="relative h-72 w-full p-2 sm:h-96 lg:h-auto lg:flex-1">
 							{mediaItems.length === 1 && (
 								<Media
 									resource={mediaItems[0]}
 									priority
 									className="h-full w-full flex items-center justify-center"
 									pictureClassName="block h-full w-full"
-									imgClassName="max-h-full max-w-full h-auto w-auto object-contain"
+									imgClassName="h-full w-full object-contain"
 								/>
 							)}
 
