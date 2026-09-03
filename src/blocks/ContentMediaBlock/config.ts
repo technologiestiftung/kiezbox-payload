@@ -8,12 +8,14 @@ import {
 	lexicalEditor,
 } from '@payloadcms/richtext-lexical';
 
+import { anchor } from '@/fields/anchor';
 import { linkGroup } from '@/fields/linkGroup';
 
 export const ContentMediaBlock: Block = {
 	slug: 'contentMediaBlock',
 	interfaceName: 'ContentMediaBlock',
 	fields: [
+		anchor(),
 		{ name: 'eyebrow', type: 'text' },
 		{ name: 'title', type: 'text' },
 		{ name: 'subtitle', type: 'text' },

@@ -61,7 +61,7 @@ export const link: LinkType = ({
 								value: 'reference',
 							},
 							{
-								label: 'Custom URL',
+								label: 'Custom URL or Anchor',
 								value: 'custom',
 							},
 						],
@@ -137,6 +137,7 @@ export const link: LinkType = ({
 		let appearanceOptionsToUse = [
 			appearanceOptions.default,
 			appearanceOptions.outline,
+			appearanceOptions.ghost,
 		];
 
 		if (appearances) {

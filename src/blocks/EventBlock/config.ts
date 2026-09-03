@@ -1,5 +1,6 @@
 import type { Block, Field } from 'payload'
 
+import { anchor } from '@/fields/anchor'
 import { link } from '@/fields/link'
 import {
   FixedToolbarFeature,
@@ -32,6 +33,7 @@ export const EventBlock: Block = {
   slug: 'eventBlock',
   interfaceName: 'EventBlock',
   fields: [
+    anchor(),
     { name: 'eyebrow', type: 'text' },
     { name: 'title', type: 'text', required: true },
     { name: 'subtitle', type: 'text' },
