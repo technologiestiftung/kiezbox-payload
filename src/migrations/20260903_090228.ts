@@ -10,7 +10,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum_pages_blocks_content_columns_link_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum_pages_blocks_content_columns_link_appearance" AS ENUM('default', 'outline');
   CREATE TYPE "public"."enum_pages_blocks_content_media_block_links_link_type" AS ENUM('reference', 'custom');
-  CREATE TYPE "public"."enum_pages_blocks_content_media_block_links_link_appearance" AS ENUM('default', 'outline');
+  CREATE TYPE "public"."enum_pages_blocks_content_media_block_links_link_appearance" AS ENUM('default', 'outline', 'ghost', 'link');
+  CREATE TYPE "public"."enum_pages_blocks_content_media_block_media_position" AS ENUM('right', 'left');
+  CREATE TYPE "public"."enum_pages_blocks_content_media_block_background" AS ENUM('default', 'inverse');
   CREATE TYPE "public"."enum_pages_blocks_archive_populate_by" AS ENUM('collection', 'selection');
   CREATE TYPE "public"."enum_pages_blocks_archive_relation_to" AS ENUM('posts');
   CREATE TYPE "public"."enum_pages_blocks_card_block_cards_icon" AS ENUM('shield', 'sun', 'network', 'circuitBoard', 'microchip');
@@ -25,7 +27,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum__pages_v_blocks_content_columns_link_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum__pages_v_blocks_content_columns_link_appearance" AS ENUM('default', 'outline');
   CREATE TYPE "public"."enum__pages_v_blocks_content_media_block_links_link_type" AS ENUM('reference', 'custom');
-  CREATE TYPE "public"."enum__pages_v_blocks_content_media_block_links_link_appearance" AS ENUM('default', 'outline');
+  CREATE TYPE "public"."enum__pages_v_blocks_content_media_block_links_link_appearance" AS ENUM('default', 'outline', 'ghost', 'link');
+  CREATE TYPE "public"."enum__pages_v_blocks_content_media_block_media_position" AS ENUM('right', 'left');
+  CREATE TYPE "public"."enum__pages_v_blocks_content_media_block_background" AS ENUM('default', 'inverse');
   CREATE TYPE "public"."enum__pages_v_blocks_archive_populate_by" AS ENUM('collection', 'selection');
   CREATE TYPE "public"."enum__pages_v_blocks_archive_relation_to" AS ENUM('posts');
   CREATE TYPE "public"."enum__pages_v_blocks_card_block_cards_icon" AS ENUM('shield', 'sun', 'network', 'circuitBoard', 'microchip');
@@ -34,6 +38,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum__pages_v_version_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum_posts_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum__posts_v_version_status" AS ENUM('draft', 'published');
+  CREATE TYPE "public"."enum_users_roles" AS ENUM('admin', 'editor', 'user');
   CREATE TYPE "public"."enum_redirects_to_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum_forms_confirmation_type" AS ENUM('message', 'redirect');
   CREATE TYPE "public"."enum_payload_jobs_log_task_slug" AS ENUM('inline', 'schedulePublish');
@@ -107,6 +112,20 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"link_appearance" "enum_pages_blocks_content_media_block_links_link_appearance" DEFAULT 'default'
   );
   
+  CREATE TABLE "pages_blocks_content_media_block_features" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" varchar NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"content" jsonb
+  );
+  
+  CREATE TABLE "pages_blocks_content_media_block_badges" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" varchar NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"label" varchar
+  );
+  
   CREATE TABLE "pages_blocks_content_media_block" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -116,6 +135,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"title" varchar,
   	"subtitle" varchar,
   	"rich_text" jsonb,
+  	"media_caption" varchar,
+  	"media_position" "enum_pages_blocks_content_media_block_media_position" DEFAULT 'right',
+  	"background" "enum_pages_blocks_content_media_block_background" DEFAULT 'default',
+  	"show_divider" boolean DEFAULT false,
   	"block_name" varchar
   );
   
@@ -294,6 +317,22 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"_uuid" varchar
   );
   
+  CREATE TABLE "_pages_v_blocks_content_media_block_features" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"content" jsonb,
+  	"_uuid" varchar
+  );
+  
+  CREATE TABLE "_pages_v_blocks_content_media_block_badges" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"label" varchar,
+  	"_uuid" varchar
+  );
+  
   CREATE TABLE "_pages_v_blocks_content_media_block" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,
@@ -303,6 +342,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"title" varchar,
   	"subtitle" varchar,
   	"rich_text" jsonb,
+  	"media_caption" varchar,
+  	"media_position" "enum__pages_v_blocks_content_media_block_media_position" DEFAULT 'right',
+  	"background" "enum__pages_v_blocks_content_media_block_background" DEFAULT 'default',
+  	"show_divider" boolean DEFAULT false,
   	"_uuid" varchar,
   	"block_name" varchar
   );
@@ -573,6 +616,13 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"parent_id" integer,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+  );
+  
+  CREATE TABLE "users_roles" (
+  	"order" integer NOT NULL,
+  	"parent_id" integer NOT NULL,
+  	"value" "enum_users_roles",
+  	"id" serial PRIMARY KEY NOT NULL
   );
   
   CREATE TABLE "users_sessions" (
@@ -957,6 +1007,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "pages_blocks_content_columns" ADD CONSTRAINT "pages_blocks_content_columns_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_content"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "pages_blocks_content" ADD CONSTRAINT "pages_blocks_content_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "pages_blocks_content_media_block_links" ADD CONSTRAINT "pages_blocks_content_media_block_links_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_content_media_block"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "pages_blocks_content_media_block_features" ADD CONSTRAINT "pages_blocks_content_media_block_features_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_content_media_block"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "pages_blocks_content_media_block_badges" ADD CONSTRAINT "pages_blocks_content_media_block_badges_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages_blocks_content_media_block"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "pages_blocks_content_media_block" ADD CONSTRAINT "pages_blocks_content_media_block_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "pages_blocks_media_block" ADD CONSTRAINT "pages_blocks_media_block_media_id_media_id_fk" FOREIGN KEY ("media_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "pages_blocks_media_block" ADD CONSTRAINT "pages_blocks_media_block_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
@@ -980,6 +1032,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "_pages_v_blocks_content_columns" ADD CONSTRAINT "_pages_v_blocks_content_columns_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_content"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "_pages_v_blocks_content" ADD CONSTRAINT "_pages_v_blocks_content_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "_pages_v_blocks_content_media_block_links" ADD CONSTRAINT "_pages_v_blocks_content_media_block_links_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_content_media_block"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "_pages_v_blocks_content_media_block_features" ADD CONSTRAINT "_pages_v_blocks_content_media_block_features_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_content_media_block"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "_pages_v_blocks_content_media_block_badges" ADD CONSTRAINT "_pages_v_blocks_content_media_block_badges_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v_blocks_content_media_block"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "_pages_v_blocks_content_media_block" ADD CONSTRAINT "_pages_v_blocks_content_media_block_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "_pages_v_blocks_media_block" ADD CONSTRAINT "_pages_v_blocks_media_block_media_id_media_id_fk" FOREIGN KEY ("media_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "_pages_v_blocks_media_block" ADD CONSTRAINT "_pages_v_blocks_media_block_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."_pages_v"("id") ON DELETE cascade ON UPDATE no action;
@@ -1017,6 +1071,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "categories_breadcrumbs" ADD CONSTRAINT "categories_breadcrumbs_doc_id_categories_id_fk" FOREIGN KEY ("doc_id") REFERENCES "public"."categories"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "categories_breadcrumbs" ADD CONSTRAINT "categories_breadcrumbs_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."categories"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "categories" ADD CONSTRAINT "categories_parent_id_categories_id_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."categories"("id") ON DELETE set null ON UPDATE no action;
+  ALTER TABLE "users_roles" ADD CONSTRAINT "users_roles_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "users_sessions" ADD CONSTRAINT "users_sessions_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "redirects_rels" ADD CONSTRAINT "redirects_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."redirects"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "redirects_rels" ADD CONSTRAINT "redirects_rels_pages_fk" FOREIGN KEY ("pages_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
@@ -1076,6 +1131,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "pages_blocks_content_path_idx" ON "pages_blocks_content" USING btree ("_path");
   CREATE INDEX "pages_blocks_content_media_block_links_order_idx" ON "pages_blocks_content_media_block_links" USING btree ("_order");
   CREATE INDEX "pages_blocks_content_media_block_links_parent_id_idx" ON "pages_blocks_content_media_block_links" USING btree ("_parent_id");
+  CREATE INDEX "pages_blocks_content_media_block_features_order_idx" ON "pages_blocks_content_media_block_features" USING btree ("_order");
+  CREATE INDEX "pages_blocks_content_media_block_features_parent_id_idx" ON "pages_blocks_content_media_block_features" USING btree ("_parent_id");
+  CREATE INDEX "pages_blocks_content_media_block_badges_order_idx" ON "pages_blocks_content_media_block_badges" USING btree ("_order");
+  CREATE INDEX "pages_blocks_content_media_block_badges_parent_id_idx" ON "pages_blocks_content_media_block_badges" USING btree ("_parent_id");
   CREATE INDEX "pages_blocks_content_media_block_order_idx" ON "pages_blocks_content_media_block" USING btree ("_order");
   CREATE INDEX "pages_blocks_content_media_block_parent_id_idx" ON "pages_blocks_content_media_block" USING btree ("_parent_id");
   CREATE INDEX "pages_blocks_content_media_block_path_idx" ON "pages_blocks_content_media_block" USING btree ("_path");
@@ -1127,6 +1186,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "_pages_v_blocks_content_path_idx" ON "_pages_v_blocks_content" USING btree ("_path");
   CREATE INDEX "_pages_v_blocks_content_media_block_links_order_idx" ON "_pages_v_blocks_content_media_block_links" USING btree ("_order");
   CREATE INDEX "_pages_v_blocks_content_media_block_links_parent_id_idx" ON "_pages_v_blocks_content_media_block_links" USING btree ("_parent_id");
+  CREATE INDEX "_pages_v_blocks_content_media_block_features_order_idx" ON "_pages_v_blocks_content_media_block_features" USING btree ("_order");
+  CREATE INDEX "_pages_v_blocks_content_media_block_features_parent_id_idx" ON "_pages_v_blocks_content_media_block_features" USING btree ("_parent_id");
+  CREATE INDEX "_pages_v_blocks_content_media_block_badges_order_idx" ON "_pages_v_blocks_content_media_block_badges" USING btree ("_order");
+  CREATE INDEX "_pages_v_blocks_content_media_block_badges_parent_id_idx" ON "_pages_v_blocks_content_media_block_badges" USING btree ("_parent_id");
   CREATE INDEX "_pages_v_blocks_content_media_block_order_idx" ON "_pages_v_blocks_content_media_block" USING btree ("_order");
   CREATE INDEX "_pages_v_blocks_content_media_block_parent_id_idx" ON "_pages_v_blocks_content_media_block" USING btree ("_parent_id");
   CREATE INDEX "_pages_v_blocks_content_media_block_path_idx" ON "_pages_v_blocks_content_media_block" USING btree ("_path");
@@ -1220,6 +1283,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "categories_parent_idx" ON "categories" USING btree ("parent_id");
   CREATE INDEX "categories_updated_at_idx" ON "categories" USING btree ("updated_at");
   CREATE INDEX "categories_created_at_idx" ON "categories" USING btree ("created_at");
+  CREATE INDEX "users_roles_order_idx" ON "users_roles" USING btree ("order");
+  CREATE INDEX "users_roles_parent_idx" ON "users_roles" USING btree ("parent_id");
   CREATE INDEX "users_sessions_order_idx" ON "users_sessions" USING btree ("_order");
   CREATE INDEX "users_sessions_parent_id_idx" ON "users_sessions" USING btree ("_parent_id");
   CREATE INDEX "users_updated_at_idx" ON "users" USING btree ("updated_at");
@@ -1348,6 +1413,8 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "pages_blocks_content_columns" CASCADE;
   DROP TABLE "pages_blocks_content" CASCADE;
   DROP TABLE "pages_blocks_content_media_block_links" CASCADE;
+  DROP TABLE "pages_blocks_content_media_block_features" CASCADE;
+  DROP TABLE "pages_blocks_content_media_block_badges" CASCADE;
   DROP TABLE "pages_blocks_content_media_block" CASCADE;
   DROP TABLE "pages_blocks_media_block" CASCADE;
   DROP TABLE "pages_blocks_archive" CASCADE;
@@ -1364,6 +1431,8 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "_pages_v_blocks_content_columns" CASCADE;
   DROP TABLE "_pages_v_blocks_content" CASCADE;
   DROP TABLE "_pages_v_blocks_content_media_block_links" CASCADE;
+  DROP TABLE "_pages_v_blocks_content_media_block_features" CASCADE;
+  DROP TABLE "_pages_v_blocks_content_media_block_badges" CASCADE;
   DROP TABLE "_pages_v_blocks_content_media_block" CASCADE;
   DROP TABLE "_pages_v_blocks_media_block" CASCADE;
   DROP TABLE "_pages_v_blocks_archive" CASCADE;
@@ -1383,6 +1452,7 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "media" CASCADE;
   DROP TABLE "categories_breadcrumbs" CASCADE;
   DROP TABLE "categories" CASCADE;
+  DROP TABLE "users_roles" CASCADE;
   DROP TABLE "users_sessions" CASCADE;
   DROP TABLE "users" CASCADE;
   DROP TABLE "redirects" CASCADE;
@@ -1429,6 +1499,8 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TYPE "public"."enum_pages_blocks_content_columns_link_appearance";
   DROP TYPE "public"."enum_pages_blocks_content_media_block_links_link_type";
   DROP TYPE "public"."enum_pages_blocks_content_media_block_links_link_appearance";
+  DROP TYPE "public"."enum_pages_blocks_content_media_block_media_position";
+  DROP TYPE "public"."enum_pages_blocks_content_media_block_background";
   DROP TYPE "public"."enum_pages_blocks_archive_populate_by";
   DROP TYPE "public"."enum_pages_blocks_archive_relation_to";
   DROP TYPE "public"."enum_pages_blocks_card_block_cards_icon";
@@ -1444,6 +1516,8 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TYPE "public"."enum__pages_v_blocks_content_columns_link_appearance";
   DROP TYPE "public"."enum__pages_v_blocks_content_media_block_links_link_type";
   DROP TYPE "public"."enum__pages_v_blocks_content_media_block_links_link_appearance";
+  DROP TYPE "public"."enum__pages_v_blocks_content_media_block_media_position";
+  DROP TYPE "public"."enum__pages_v_blocks_content_media_block_background";
   DROP TYPE "public"."enum__pages_v_blocks_archive_populate_by";
   DROP TYPE "public"."enum__pages_v_blocks_archive_relation_to";
   DROP TYPE "public"."enum__pages_v_blocks_card_block_cards_icon";
@@ -1452,6 +1526,7 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TYPE "public"."enum__pages_v_version_status";
   DROP TYPE "public"."enum_posts_status";
   DROP TYPE "public"."enum__posts_v_version_status";
+  DROP TYPE "public"."enum_users_roles";
   DROP TYPE "public"."enum_redirects_to_type";
   DROP TYPE "public"."enum_forms_confirmation_type";
   DROP TYPE "public"."enum_payload_jobs_log_task_slug";

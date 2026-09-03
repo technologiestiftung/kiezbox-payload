@@ -553,7 +553,7 @@ export interface ContentBlock {
  */
 export interface ContentMediaBlock {
   eyebrow?: string | null;
-  title: string;
+  title?: string | null;
   subtitle?: string | null;
   richText?: {
     root: {
@@ -589,12 +589,50 @@ export interface ContentMediaBlock {
           /**
            * Choose how the link should be rendered.
            */
-          appearance?: ('default' | 'outline') | null;
+          appearance?: ('default' | 'outline' | 'ghost' | 'link') | null;
         };
         id?: string | null;
       }[]
     | null;
   media: (number | Media)[];
+  mediaPosition?: ('right' | 'left') | null;
+  background?: ('default' | 'inverse') | null;
+  /**
+   * Optional numbered feature list (e.g. KRITIS section). Renders instead of richText when set.
+   */
+  features?:
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Show a divider above the badges/links row.
+   */
+  showDivider?: boolean | null;
+  /**
+   * Optional plain-text badge pills (e.g. license). For a linked pill, use the Links field above with the Ghost appearance instead.
+   */
+  badges?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'contentMediaBlock';
@@ -1319,6 +1357,21 @@ export interface ContentMediaBlockSelect<T extends boolean = true> {
         id?: T;
       };
   media?: T;
+  mediaPosition?: T;
+  background?: T;
+  features?:
+    | T
+    | {
+        content?: T;
+        id?: T;
+      };
+  showDivider?: T;
+  badges?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
