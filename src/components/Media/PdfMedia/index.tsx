@@ -20,7 +20,7 @@ const formatFileSize = (bytes?: number | null): string | null => {
 };
 
 export const PdfMedia: React.FC<MediaProps> = (props) => {
-	const { className, onClick, pdfClassName, resource } = props;
+	const { onClick, pdfClassName, resource } = props;
 
 	if (!resource || typeof resource !== 'object') return null;
 
@@ -31,27 +31,28 @@ export const PdfMedia: React.FC<MediaProps> = (props) => {
 	if (!href) return null;
 
 	return (
-		<a
-			className={cn(
-				'flex items-center gap-3 rounded-md border p-4 ring-ring/10 outline-ring/50 focus-visible:ring-4 focus-visible:outline-1 dark:ring-ring/20 dark:outline-ring/40',
-				className,
-				pdfClassName,
-			)}
-			href={href}
-			onClick={onClick}
-			rel="noopener noreferrer"
-			target="_blank"
-		>
-			<FileText aria-hidden="true" className="size-8 shrink-0" />
-			<span className="flex flex-col overflow-hidden">
-				<span className="truncate font-medium">
-					{filename || 'PDF'} öffnen
-					<span className="sr-only"> (öffnet in neuem Tab)</span>
+		<div className="flex h-full min-h-32 w-full items-center justify-center p-4">
+			<a
+				className={cn(
+					'flex max-w-xs items-center gap-3 rounded-md border bg-background/90 p-4 shadow-sm ring-ring/10 outline-ring/50 backdrop-blur focus-visible:ring-4 focus-visible:outline-1 dark:ring-ring/20 dark:outline-ring/40',
+					pdfClassName,
+				)}
+				href={href}
+				onClick={onClick}
+				rel="noopener noreferrer"
+				target="_blank"
+			>
+				<FileText aria-hidden="true" className="size-8 shrink-0" />
+				<span className="flex flex-col overflow-hidden text-left">
+					<span className="truncate font-medium">
+						{filename || 'PDF'} öffnen
+						<span className="sr-only"> (öffnet in neuem Tab)</span>
+					</span>
+					<span className="text-sm text-muted-foreground">
+						PDF{fileSizeLabel ? ` · ${fileSizeLabel}` : ''}
+					</span>
 				</span>
-				<span className="text-sm text-muted-foreground">
-					PDF{fileSizeLabel ? ` · ${fileSizeLabel}` : ''}
-				</span>
-			</span>
-		</a>
+			</a>
+		</div>
 	);
 };
