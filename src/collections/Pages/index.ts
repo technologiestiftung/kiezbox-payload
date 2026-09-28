@@ -108,6 +108,11 @@ export const Pages: CollectionConfig<'pages'> = {
 						}),
 						MetaImageField({
 							relationTo: 'media',
+							overrides: {
+								filterOptions: {
+									mimeType: { contains: 'image' },
+								},
+							},
 						}),
 
 						MetaDescriptionField({}),

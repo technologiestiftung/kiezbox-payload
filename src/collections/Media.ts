@@ -49,6 +49,9 @@ export const Media: CollectionConfig = {
 		staticDir: path.resolve(dirname, '../../public/media'),
 		adminThumbnail: 'thumbnail',
 		focalPoint: true,
+		// Explicit allow-list, enforced server-side by Payload — PDFs can't be resized by
+		// sharp, so the admin thumbnail falls back to Payload's built-in generic file icon.
+		mimeTypes: ['image/*', 'video/*', 'application/pdf'],
 		imageSizes: [
 			{
 				name: 'thumbnail',
