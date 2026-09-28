@@ -60,3 +60,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# --- Claude Code ------------------------------------------------------
+
+# personal overrides and local state (the shared config is committed)
+.claude/settings.local.json
+.claude/plans/
+.claude/worktrees/
+.claude/reports/
+CLAUDE.local.md
