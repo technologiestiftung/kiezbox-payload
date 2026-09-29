@@ -7,6 +7,8 @@ import {
 	lexicalEditor,
 } from '@payloadcms/richtext-lexical';
 
+import { anchor } from '@/fields/anchor';
+
 const cardFields: Field[] = [
 	{
 		name: 'icon',
@@ -36,6 +38,7 @@ export const CardBlock: Block = {
 	slug: 'cardBlock',
 	interfaceName: 'CardBlock',
 	fields: [
+		anchor(),
 		{ name: 'eyebrow', type: 'text' },
 		{ name: 'title', type: 'text', required: true },
 		{ name: 'subtitle', type: 'text' },

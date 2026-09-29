@@ -41,7 +41,7 @@ export const MediumImpactHero: React.FC<Page['hero']> = ({
 						resource={media}
 						priority
 						className="h-full max-h-full"
-						imgClassName="h-full max-h-full w-full object-cover"
+						imgClassName="h-full max-h-full w-full object-contain"
 					/>
 				</div>
 			</div>

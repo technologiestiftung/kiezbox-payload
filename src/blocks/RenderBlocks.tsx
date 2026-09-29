@@ -33,14 +33,14 @@ export const RenderBlocks: React.FC<{
 		return (
 			<Fragment>
 				{blocks.map((block, index) => {
-					const { blockType } = block;
+					const { anchor, blockType } = block;
 
 					if (blockType && blockType in blockComponents) {
 						const Block = blockComponents[blockType];
 
 						if (Block) {
 							return (
-								<div className="my-16" key={index}>
+								<div className="py-16" id={anchor || undefined} key={index}>
 									{/* @ts-expect-error there may be some mismatch between the expected types here */}
 									<Block {...block} disableInnerContainer />
 								</div>
