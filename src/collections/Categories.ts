@@ -2,7 +2,6 @@ import type { CollectionConfig } from 'payload';
 
 import { slugField } from 'payload';
 import { anyone } from '../access/anyone';
-import { authenticated } from '../access/authenticated';
 import { editorAccess } from '../access/editorAccess';
 
 export const Categories: CollectionConfig = {
@@ -11,7 +10,7 @@ export const Categories: CollectionConfig = {
 		create: editorAccess,
 		delete: editorAccess,
 		read: anyone,
-		update: authenticated,
+		update: editorAccess,
 	},
 	admin: {
 		useAsTitle: 'title',

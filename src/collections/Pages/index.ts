@@ -2,7 +2,6 @@ import type { CollectionConfig } from 'payload';
 
 import { hero } from '@/heros/config';
 import { slugField } from 'payload';
-import { authenticated } from '../../access/authenticated';
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished';
 import { editorAccess } from '../../access/editorAccess';
 import { Archive } from '../../blocks/ArchiveBlock/config';
@@ -31,7 +30,7 @@ export const Pages: CollectionConfig<'pages'> = {
 		create: editorAccess,
 		delete: editorAccess,
 		read: authenticatedOrPublished,
-		update: authenticated,
+		update: editorAccess,
 	},
 	// This config controls what's populated by default when a page is referenced
 	// https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property

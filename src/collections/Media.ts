@@ -9,7 +9,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import { anyone } from '../access/anyone';
-import { authenticated } from '../access/authenticated';
 import { editorAccess } from '../access/editorAccess';
 
 const filename = fileURLToPath(import.meta.url);
@@ -22,7 +21,7 @@ export const Media: CollectionConfig = {
 		create: editorAccess,
 		delete: editorAccess,
 		read: anyone,
-		update: authenticated,
+		update: editorAccess,
 	},
 	fields: [
 		{
