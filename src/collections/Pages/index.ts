@@ -5,6 +5,7 @@ import { slugField } from 'payload';
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished';
 import { editorAccess } from '../../access/editorAccess';
 import { Archive } from '../../blocks/ArchiveBlock/config';
+import { Bedarfsrechner } from '../../blocks/Bedarfsrechner/config';
 import { CallToAction } from '../../blocks/CallToAction/config';
 import { CardBlock } from '../../blocks/CardBlock/config';
 import { Content } from '../../blocks/Content/config';
@@ -84,6 +85,7 @@ export const Pages: CollectionConfig<'pages'> = {
 								FormBlock,
 								CardBlock,
 								EventBlock,
+								Bedarfsrechner,
 							],
 							required: true,
 							admin: {

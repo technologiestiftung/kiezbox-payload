@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import type { Page } from '@/payload-types';
 
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component';
+import { BedarfsrechnerBlock } from '@/blocks/Bedarfsrechner/Component';
 import { CallToActionBlock } from '@/blocks/CallToAction/Component';
 import { CardBlock } from '@/blocks/CardBlock/Component';
 import { ContentBlock } from '@/blocks/Content/Component';
@@ -20,6 +21,7 @@ const blockComponents = {
 	mediaBlock: MediaBlock,
 	cardBlock: CardBlock,
 	eventBlock: EventBlock,
+	bedarfsrechner: BedarfsrechnerBlock,
 };
 
 export const RenderBlocks: React.FC<{

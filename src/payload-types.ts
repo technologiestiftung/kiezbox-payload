@@ -210,6 +210,7 @@ export interface Page {
     | FormBlock
     | CardBlock
     | EventBlock
+    | BedarfsrechnerBlock
   )[];
   meta?: {
     title?: string | null;
@@ -991,6 +992,54 @@ export interface EventBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BedarfsrechnerBlock".
+ */
+export interface BedarfsrechnerBlock {
+  /**
+   * Optional HTML id for this section, e.g. 'wie-es-funktioniert'. Lets navigation link here via '#wie-es-funktioniert'.
+   */
+  anchor?: string | null;
+  eyebrow?: string | null;
+  title: string;
+  areaLabel: string;
+  areaDescription?: string | null;
+  modeLabel: string;
+  modeDescription?: string | null;
+  meshLabel: string;
+  /**
+   * The calculation uses a fixed range of 1 km, independent of this text.
+   */
+  meshDescription?: string | null;
+  publicWifiLabel: string;
+  /**
+   * The calculation uses a fixed range of 400 m, independent of this text.
+   */
+  publicWifiDescription?: string | null;
+  /**
+   * Read out to screen readers after the number, e.g. "4–5 Kiezboxen".
+   */
+  resultUnit?: string | null;
+  disclaimer?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'bedarfsrechner';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1300,6 +1349,7 @@ export interface PagesSelect<T extends boolean = true> {
         formBlock?: T | FormBlockSelect<T>;
         cardBlock?: T | CardBlockSelect<T>;
         eventBlock?: T | EventBlockSelect<T>;
+        bedarfsrechner?: T | BedarfsrechnerBlockSelect<T>;
       };
   meta?:
     | T
@@ -1496,6 +1546,27 @@ export interface EventBlockSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BedarfsrechnerBlock_select".
+ */
+export interface BedarfsrechnerBlockSelect<T extends boolean = true> {
+  anchor?: T;
+  eyebrow?: T;
+  title?: T;
+  areaLabel?: T;
+  areaDescription?: T;
+  modeLabel?: T;
+  modeDescription?: T;
+  meshLabel?: T;
+  meshDescription?: T;
+  publicWifiLabel?: T;
+  publicWifiDescription?: T;
+  resultUnit?: T;
+  disclaimer?: T;
   id?: T;
   blockName?: T;
 }

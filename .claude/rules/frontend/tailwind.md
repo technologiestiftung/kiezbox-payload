@@ -1,7 +1,7 @@
 ---
 paths:
-  - "app/**/*.tsx"
-  - "components/**/*.tsx"
+  - "src/app/**/*.tsx"
+  - "src/components/**/*.tsx"
 ---
 
 # Tailwind Conventions
