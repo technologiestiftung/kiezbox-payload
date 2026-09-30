@@ -1,6 +1,5 @@
 'use client';
 
-import { Check } from 'lucide-react';
 import { useId, useState, type ReactNode } from 'react';
 
 import { Input } from '@/components/ui/input';
