@@ -22,7 +22,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       className={cn(GeistSans.variable, GeistMono.variable, 'motion-safe:scroll-smooth')}
-      lang="en"
+      lang="de"
       suppressHydrationWarning
     >
       <head>
