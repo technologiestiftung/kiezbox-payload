@@ -26,7 +26,8 @@ type CMSLinkType = {
  * the user manually scrolls away. A native <a> always triggers the browser's
  * fragment-scroll behavior, so pure in-page hash links use one instead.
  */
-const isPureHashHref = (href: string): boolean => href.startsWith('#');
+const isPureHashHref = (href: string): boolean =>
+	href.startsWith('#') || href.startsWith('/#');
 
 export const CMSLink: React.FC<CMSLinkType> = (props) => {
 	const {
