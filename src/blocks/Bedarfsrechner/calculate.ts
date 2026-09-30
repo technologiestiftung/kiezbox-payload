@@ -50,8 +50,9 @@ export const calculateBoxRange = (
 	};
 };
 
-/** Single rounded estimate: the middle of the range. */
-export const estimateBoxCount = ({ lower, upper }: BoxRange): number =>
-	Math.round((lower + upper) / 2);
+export const formatBoxRange = ({ lower, upper }: BoxRange): string =>
+	lower === upper ? String(lower) : `${lower}–${upper}`;
 
-export const formatBoxEstimate = (count: number): string => `~${count}`;
+/** Spoken form for screen readers, which read an en dash inconsistently. */
+export const describeBoxRange = ({ lower, upper }: BoxRange): string =>
+	lower === upper ? String(lower) : `${lower} bis ${upper}`;

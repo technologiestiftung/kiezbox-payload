@@ -11,8 +11,8 @@ import type { BedarfsrechnerBlock } from '@/payload-types';
 
 import {
 	calculateBoxRange,
-	estimateBoxCount,
-	formatBoxEstimate,
+	describeBoxRange,
+	formatBoxRange,
 	parseArea,
 	type CoverageMode,
 } from './calculate';
@@ -59,9 +59,8 @@ export const Bedarfsrechner = ({
 
 	const area = parseArea(areaInput);
 	const hasError = areaInput.trim() !== '' && area === null;
-	const estimate =
-		area === null ? null : estimateBoxCount(calculateBoxRange(area, mode));
-	const result = estimate === null ? EMPTY_RESULT : formatBoxEstimate(estimate);
+	const range = area === null ? null : calculateBoxRange(area, mode);
+	const result = range === null ? EMPTY_RESULT : formatBoxRange(range);
 
 	const modes: {
 		value: CoverageMode;
@@ -171,9 +170,9 @@ export const Bedarfsrechner = ({
 					publicWifiLabel={publicWifiLabel}
 				/>
 				<p className="sr-only" role="status" aria-atomic="true">
-					{estimate === null
+					{range === null
 						? ''
-						: `ca. ${estimate} ${resultUnit ?? ''}`.trim()}
+						: `${describeBoxRange(range)} ${resultUnit ?? ''}`.trim()}
 				</p>
 			</div>
 		</div>

@@ -3,8 +3,8 @@ import { describe, expect, it } from 'vitest';
 import {
 	calculateAreaPerBox,
 	calculateBoxRange,
-	estimateBoxCount,
-	formatBoxEstimate,
+	describeBoxRange,
+	formatBoxRange,
 	MAX_AREA_KM2,
 	parseArea,
 } from '@/blocks/Bedarfsrechner/calculate';
@@ -62,30 +62,22 @@ describe('calculateBoxRange', () => {
 	});
 });
 
-describe('estimateBoxCount', () => {
-	it('returns the middle of the range', () => {
-		expect(estimateBoxCount({ lower: 4, upper: 6 })).toBe(5);
-		expect(estimateBoxCount({ lower: 12, upper: 16 })).toBe(14);
+describe('formatBoxRange', () => {
+	it('formats ranges with an en dash', () => {
+		expect(formatBoxRange({ lower: 2, upper: 3 })).toBe('2–3');
 	});
 
-	it('returns the value itself for equal bounds', () => {
-		expect(estimateBoxCount({ lower: 1, upper: 1 })).toBe(1);
-	});
-
-	it('stays within the range', () => {
-		for (const range of [
-			{ lower: 2, upper: 3 },
-			{ lower: 13, upper: 19 },
-		]) {
-			const estimate = estimateBoxCount(range);
-			expect(estimate).toBeGreaterThanOrEqual(range.lower);
-			expect(estimate).toBeLessThanOrEqual(range.upper);
-		}
+	it('collapses equal bounds to a single number', () => {
+		expect(formatBoxRange({ lower: 1, upper: 1 })).toBe('1');
 	});
 });
 
-describe('formatBoxEstimate', () => {
-	it('prefixes a tilde', () => {
-		expect(formatBoxEstimate(5)).toBe('~5');
+describe('describeBoxRange', () => {
+	it('spells out the range for screen readers', () => {
+		expect(describeBoxRange({ lower: 4, upper: 6 })).toBe('4 bis 6');
+	});
+
+	it('collapses equal bounds to a single number', () => {
+		expect(describeBoxRange({ lower: 1, upper: 1 })).toBe('1');
 	});
 });
