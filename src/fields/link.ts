@@ -2,7 +2,7 @@ import type { Field, GroupField } from 'payload';
 
 import deepMerge from '@/utilities/deepMerge';
 
-export type LinkAppearances = 'default' | 'outline' | 'link';
+export type LinkAppearances = 'default' | 'outline' | 'ghost' | 'link';
 
 export const appearanceOptions: Record<
 	LinkAppearances,
@@ -15,6 +15,10 @@ export const appearanceOptions: Record<
 	outline: {
 		label: 'Outline',
 		value: 'outline',
+	},
+	ghost: {
+		label: 'Ghost',
+		value: 'ghost',
 	},
 	link: {
 		label: 'Link',
@@ -57,7 +61,7 @@ export const link: LinkType = ({
 								value: 'reference',
 							},
 							{
-								label: 'Custom URL',
+								label: 'Custom URL or Anchor',
 								value: 'custom',
 							},
 						],
@@ -133,6 +137,7 @@ export const link: LinkType = ({
 		let appearanceOptionsToUse = [
 			appearanceOptions.default,
 			appearanceOptions.outline,
+			appearanceOptions.ghost,
 		];
 
 		if (appearances) {

@@ -7,12 +7,14 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
+import { anchor } from '../../fields/anchor'
 import { linkGroup } from '../../fields/linkGroup'
 
 export const CallToAction: Block = {
   slug: 'cta',
   interfaceName: 'CallToActionBlock',
   fields: [
+    anchor(),
     {
       name: 'richText',
       type: 'richText',
@@ -29,7 +31,7 @@ export const CallToAction: Block = {
       label: false,
     },
     linkGroup({
-      appearances: ['default', 'outline'],
+      appearances: ['default', 'outline', 'ghost'],
       overrides: {
         maxRows: 2,
       },

@@ -194,7 +194,7 @@ export interface Page {
             /**
              * Choose how the link should be rendered.
              */
-            appearance?: ('default' | 'outline') | null;
+            appearance?: ('default' | 'outline' | 'ghost') | null;
           };
           id?: string | null;
         }[]
@@ -210,6 +210,7 @@ export interface Page {
     | FormBlock
     | CardBlock
     | EventBlock
+    | BedarfsrechnerBlock
   )[];
   meta?: {
     title?: string | null;
@@ -429,6 +430,7 @@ export interface Category {
 export interface User {
   id: number;
   name?: string | null;
+  roles?: ('admin' | 'editor' | 'user')[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -453,6 +455,10 @@ export interface User {
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
+  /**
+   * Optional HTML id for this section, e.g. 'wie-es-funktioniert'. Lets navigation link here via '#wie-es-funktioniert'.
+   */
+  anchor?: string | null;
   richText?: {
     root: {
       type: string;
@@ -487,7 +493,7 @@ export interface CallToActionBlock {
           /**
            * Choose how the link should be rendered.
            */
-          appearance?: ('default' | 'outline') | null;
+          appearance?: ('default' | 'outline' | 'ghost') | null;
         };
         id?: string | null;
       }[]
@@ -501,6 +507,10 @@ export interface CallToActionBlock {
  * via the `definition` "ContentBlock".
  */
 export interface ContentBlock {
+  /**
+   * Optional HTML id for this section, e.g. 'wie-es-funktioniert'. Lets navigation link here via '#wie-es-funktioniert'.
+   */
+  anchor?: string | null;
   columns?:
     | {
         size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
@@ -537,7 +547,7 @@ export interface ContentBlock {
           /**
            * Choose how the link should be rendered.
            */
-          appearance?: ('default' | 'outline') | null;
+          appearance?: ('default' | 'outline' | 'ghost') | null;
         };
         id?: string | null;
       }[]
@@ -551,8 +561,12 @@ export interface ContentBlock {
  * via the `definition` "ContentMediaBlock".
  */
 export interface ContentMediaBlock {
+  /**
+   * Optional HTML id for this section, e.g. 'wie-es-funktioniert'. Lets navigation link here via '#wie-es-funktioniert'.
+   */
+  anchor?: string | null;
   eyebrow?: string | null;
-  title: string;
+  title?: string | null;
   subtitle?: string | null;
   richText?: {
     root: {
@@ -588,12 +602,51 @@ export interface ContentMediaBlock {
           /**
            * Choose how the link should be rendered.
            */
-          appearance?: ('default' | 'outline') | null;
+          appearance?: ('default' | 'outline' | 'ghost' | 'link') | null;
         };
         id?: string | null;
       }[]
     | null;
   media: (number | Media)[];
+  mediaPosition?: ('right' | 'left') | null;
+  contentWidth?: ('balanced' | 'contentLarge' | 'mediaLarge') | null;
+  background?: ('default' | 'inverse') | null;
+  /**
+   * Optional numbered feature list. Renders instead of richText when set.
+   */
+  features?:
+    | {
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Show a divider above the badges/links row.
+   */
+  showDivider?: boolean | null;
+  /**
+   * Optional plain-text badge pills (e.g. license). For a linked pill, use the Links field above with the Ghost appearance instead.
+   */
+  badges?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'contentMediaBlock';
@@ -603,6 +656,10 @@ export interface ContentMediaBlock {
  * via the `definition` "MediaBlock".
  */
 export interface MediaBlock {
+  /**
+   * Optional HTML id for this section, e.g. 'wie-es-funktioniert'. Lets navigation link here via '#wie-es-funktioniert'.
+   */
+  anchor?: string | null;
   media: number | Media;
   id?: string | null;
   blockName?: string | null;
@@ -613,6 +670,10 @@ export interface MediaBlock {
  * via the `definition` "ArchiveBlock".
  */
 export interface ArchiveBlock {
+  /**
+   * Optional HTML id for this section, e.g. 'wie-es-funktioniert'. Lets navigation link here via '#wie-es-funktioniert'.
+   */
+  anchor?: string | null;
   introContent?: {
     root: {
       type: string;
@@ -647,6 +708,10 @@ export interface ArchiveBlock {
  * via the `definition` "FormBlock".
  */
 export interface FormBlock {
+  /**
+   * Optional HTML id for this section, e.g. 'wie-es-funktioniert'. Lets navigation link here via '#wie-es-funktioniert'.
+   */
+  anchor?: string | null;
   form: number | Form;
   enableIntro?: boolean | null;
   introContent?: {
@@ -838,6 +903,10 @@ export interface Form {
  * via the `definition` "CardBlock".
  */
 export interface CardBlock {
+  /**
+   * Optional HTML id for this section, e.g. 'wie-es-funktioniert'. Lets navigation link here via '#wie-es-funktioniert'.
+   */
+  anchor?: string | null;
   eyebrow?: string | null;
   title: string;
   subtitle?: string | null;
@@ -871,6 +940,10 @@ export interface CardBlock {
  * via the `definition` "EventBlock".
  */
 export interface EventBlock {
+  /**
+   * Optional HTML id for this section, e.g. 'wie-es-funktioniert'. Lets navigation link here via '#wie-es-funktioniert'.
+   */
+  anchor?: string | null;
   eyebrow?: string | null;
   title: string;
   subtitle?: string | null;
@@ -916,6 +989,54 @@ export interface EventBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'eventBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BedarfsrechnerBlock".
+ */
+export interface BedarfsrechnerBlock {
+  /**
+   * Optional HTML id for this section, e.g. 'wie-es-funktioniert'. Lets navigation link here via '#wie-es-funktioniert'.
+   */
+  anchor?: string | null;
+  eyebrow?: string | null;
+  title: string;
+  areaLabel: string;
+  areaDescription?: string | null;
+  modeLabel: string;
+  modeDescription?: string | null;
+  meshLabel: string;
+  /**
+   * The calculation uses a fixed range of 1 km, independent of this text.
+   */
+  meshDescription?: string | null;
+  publicWifiLabel: string;
+  /**
+   * The calculation uses a fixed range of 400 m, independent of this text.
+   */
+  publicWifiDescription?: string | null;
+  /**
+   * Read out to screen readers after the number, e.g. "4–5 Kiezboxen".
+   */
+  resultUnit?: string | null;
+  disclaimer?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'bedarfsrechner';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1228,6 +1349,7 @@ export interface PagesSelect<T extends boolean = true> {
         formBlock?: T | FormBlockSelect<T>;
         cardBlock?: T | CardBlockSelect<T>;
         eventBlock?: T | EventBlockSelect<T>;
+        bedarfsrechner?: T | BedarfsrechnerBlockSelect<T>;
       };
   meta?:
     | T
@@ -1248,6 +1370,7 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "CallToActionBlock_select".
  */
 export interface CallToActionBlockSelect<T extends boolean = true> {
+  anchor?: T;
   richText?: T;
   links?:
     | T
@@ -1272,6 +1395,7 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
  * via the `definition` "ContentBlock_select".
  */
 export interface ContentBlockSelect<T extends boolean = true> {
+  anchor?: T;
   columns?:
     | T
     | {
@@ -1298,6 +1422,7 @@ export interface ContentBlockSelect<T extends boolean = true> {
  * via the `definition` "ContentMediaBlock_select".
  */
 export interface ContentMediaBlockSelect<T extends boolean = true> {
+  anchor?: T;
   eyebrow?: T;
   title?: T;
   subtitle?: T;
@@ -1318,6 +1443,22 @@ export interface ContentMediaBlockSelect<T extends boolean = true> {
         id?: T;
       };
   media?: T;
+  mediaPosition?: T;
+  contentWidth?: T;
+  background?: T;
+  features?:
+    | T
+    | {
+        content?: T;
+        id?: T;
+      };
+  showDivider?: T;
+  badges?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
@@ -1326,6 +1467,7 @@ export interface ContentMediaBlockSelect<T extends boolean = true> {
  * via the `definition` "MediaBlock_select".
  */
 export interface MediaBlockSelect<T extends boolean = true> {
+  anchor?: T;
   media?: T;
   id?: T;
   blockName?: T;
@@ -1335,6 +1477,7 @@ export interface MediaBlockSelect<T extends boolean = true> {
  * via the `definition` "ArchiveBlock_select".
  */
 export interface ArchiveBlockSelect<T extends boolean = true> {
+  anchor?: T;
   introContent?: T;
   populateBy?: T;
   relationTo?: T;
@@ -1349,6 +1492,7 @@ export interface ArchiveBlockSelect<T extends boolean = true> {
  * via the `definition` "FormBlock_select".
  */
 export interface FormBlockSelect<T extends boolean = true> {
+  anchor?: T;
   form?: T;
   enableIntro?: T;
   introContent?: T;
@@ -1360,6 +1504,7 @@ export interface FormBlockSelect<T extends boolean = true> {
  * via the `definition` "CardBlock_select".
  */
 export interface CardBlockSelect<T extends boolean = true> {
+  anchor?: T;
   eyebrow?: T;
   title?: T;
   subtitle?: T;
@@ -1378,6 +1523,7 @@ export interface CardBlockSelect<T extends boolean = true> {
  * via the `definition` "EventBlock_select".
  */
 export interface EventBlockSelect<T extends boolean = true> {
+  anchor?: T;
   eyebrow?: T;
   title?: T;
   subtitle?: T;
@@ -1400,6 +1546,27 @@ export interface EventBlockSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BedarfsrechnerBlock_select".
+ */
+export interface BedarfsrechnerBlockSelect<T extends boolean = true> {
+  anchor?: T;
+  eyebrow?: T;
+  title?: T;
+  areaLabel?: T;
+  areaDescription?: T;
+  modeLabel?: T;
+  modeDescription?: T;
+  meshLabel?: T;
+  meshDescription?: T;
+  publicWifiLabel?: T;
+  publicWifiDescription?: T;
+  resultUnit?: T;
+  disclaimer?: T;
   id?: T;
   blockName?: T;
 }
@@ -1554,6 +1721,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  roles?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -1871,7 +2039,7 @@ export interface Header {
           /**
            * Choose how the link should be rendered.
            */
-          appearance?: ('default' | 'link') | null;
+          appearance?: ('default' | 'ghost' | 'link') | null;
         };
         id?: string | null;
       }[]

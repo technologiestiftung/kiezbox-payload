@@ -1,5 +1,6 @@
 import type { GlobalConfig } from 'payload';
 
+import { editorAccess } from '@/access/editorAccess';
 import { link } from '@/fields/link';
 import { revalidateHeader } from './hooks/revalidateHeader';
 
@@ -7,6 +8,7 @@ export const Header: GlobalConfig = {
 	slug: 'header',
 	access: {
 		read: () => true,
+		update: editorAccess,
 	},
 	fields: [
 		{
@@ -14,7 +16,7 @@ export const Header: GlobalConfig = {
 			type: 'array',
 			fields: [
 				link({
-					appearances: ['default', 'link'],
+					appearances: ['default', 'ghost', 'link'],
 				}),
 			],
 			maxRows: 6,

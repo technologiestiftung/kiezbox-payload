@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import type { Page } from '@/payload-types';
 
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component';
+import { BedarfsrechnerBlock } from '@/blocks/Bedarfsrechner/Component';
 import { CallToActionBlock } from '@/blocks/CallToAction/Component';
 import { CardBlock } from '@/blocks/CardBlock/Component';
 import { ContentBlock } from '@/blocks/Content/Component';
@@ -20,6 +21,7 @@ const blockComponents = {
 	mediaBlock: MediaBlock,
 	cardBlock: CardBlock,
 	eventBlock: EventBlock,
+	bedarfsrechner: BedarfsrechnerBlock,
 };
 
 export const RenderBlocks: React.FC<{
@@ -33,14 +35,14 @@ export const RenderBlocks: React.FC<{
 		return (
 			<Fragment>
 				{blocks.map((block, index) => {
-					const { blockType } = block;
+					const { anchor, blockType } = block;
 
 					if (blockType && blockType in blockComponents) {
 						const Block = blockComponents[blockType];
 
 						if (Block) {
 							return (
-								<div className="my-16" key={index}>
+								<div className="py-16" id={anchor || undefined} key={index}>
 									{/* @ts-expect-error there may be some mismatch between the expected types here */}
 									<Block {...block} disableInnerContainer />
 								</div>
